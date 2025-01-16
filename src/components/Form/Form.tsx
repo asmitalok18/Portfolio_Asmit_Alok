@@ -1,0 +1,63 @@
+import { Container, ContainerSucces } from './styles'
+import { useForm, ValidationError } from '@formspree/react'
+import { toast, ToastContainer } from 'react-toastify'
+import { useEffect, useState } from 'react'
+import validator from 'validator'
+
+export function Form() {
+  const [state, handleSubmit] = useForm('xgvvqblz'); // Replace with your actual Formspree ID
+  const [validEmail, setValidEmail] = useState(false);
+  const [message, setMessage] = useState('');
+  
+  function verifyEmail(email: string) { // Specify the type as string
+    setValidEmail(validator.isEmail(email));
+  }
+  
+  useEffect(() => {
+    if (state.succeeded) {
+      toast.success('Email successfully sent!', {
+        position: toast.POSITION.BOTTOM_LEFT,
+        pauseOnFocusLoss: false,
+        closeOnClick: true,
+        hideProgressBar: false,
+        toastId: 'succeeded',
+      });
+    }
+  }, [state.succeeded]);
+  
+  return (
+    <Container>
+      <h2>Get in touch using the form</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          placeholder="Email"
+          id="email"
+          type="email"
+          name="email"
+          onChange={(e) => verifyEmail(e.target.value)}
+          required
+        />
+        <ValidationError prefix="Email" field="email" errors={state.errors} />
+        <textarea
+          required
+          placeholder="Send a message to get started."
+          id="message"
+          name="message"
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <ValidationError
+          prefix="Message"
+          field="message"
+          errors={state.errors}
+        />
+        <button
+          type="submit"
+          disabled={state.submitting || !validEmail || !message}
+        >
+          Submit
+        </button>
+      </form>
+      <ToastContainer />
+    </Container>
+  );
+}
