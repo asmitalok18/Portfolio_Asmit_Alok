@@ -86,7 +86,7 @@ export function Project() {
       {/* Category Buttons */}
       <div className="category-buttons">
         <button onClick={() => setSelectedCategory("All")}>All</button>
-        <button onClick={() => setSelectedCategory("MERN")}>MERN</button>
+{/*         <button onClick={() => setSelectedCategory("MERN")}>MERN</button> */}
         <button onClick={() => setSelectedCategory("PHP")}>PHP</button>
         <button onClick={() => setSelectedCategory("Python")}>Python</button>
         <button onClick={() => setSelectedCategory("Frontend")}>Frontend</button>
